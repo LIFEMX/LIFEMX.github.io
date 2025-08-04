@@ -16,6 +16,7 @@ const db = firebase.firestore();
 function registrarse() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       document.getElementById("mensaje").innerText = "¡Registro exitoso!";
@@ -35,6 +36,7 @@ function registrarse() {
 function iniciarSesion() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
       window.location.href = "dashboard.html";
