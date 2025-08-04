@@ -1,30 +1,109 @@
-function registrarse() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      document.getElementById("mensaje").innerText = "¡Registro exitoso!";
-      return db.collection("usuarios").doc(userCredential.user.uid).set({
-        email: email,
-        puntos: 0
-      });
-    })
-    .then(() => {
-      window.location.href = "dashboard.html"; // Redirige después de registrar
-    })
-    .catch((error) => {
-      document.getElementById("mensaje").innerText = "Error: " + error.message;
-    });
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIFE MX</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>
+      <span style="color:#4ad66d;">&#9679;</span> LIFE MX
+    </h1>
+    <p class="subtitle">Intercambia, conecta y crece</p>
+  </header>
 
-function iniciarSesion() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      window.location.href = "dashboard.html"; // Redirige después de iniciar sesión
-    })
-    .catch((error) => {
-      document.getElementById("mensaje").innerText = "Error: " + error.message;
-    });
-}
+  <main>
+    <section class="hero">
+      <h2>Intercambios inteligentes para una comunidad conectada</h2>
+      <button class="btn btn-primary">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M12 5v14m7-7H5"/></svg>
+        Publicar intercambio
+      </button>
+    </section>
+
+    <!-- Formulario de autenticación -->
+    <section class="auth">
+      <h2>Crear cuenta o iniciar sesión</h2>
+      <input type="email" id="email" placeholder="Correo electrónico">
+      <input type="password" id="password" placeholder="Contraseña">
+      <button onclick="registrarse()">Registrarse</button>
+      <button onclick="iniciarSesion()">Iniciar sesión</button>
+      <p id="mensaje"></p>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <h3>Fácil de usar</h3>
+        <p>Publica y encuentra intercambios en segundos con una interfaz intuitiva.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Seguro</h3>
+        <p>Tu privacidad y seguridad son nuestra prioridad en cada transacción.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Comunidad</h3>
+        <p>Conecta con personas reales y construye relaciones de confianza.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>LIFE MX &mdash; 2025</p>
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+
+  <!-- Código JavaScript -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnq4w726_lTd9DLP7A6Wgw0yoJVkK__Pc",
+      authDomain: "life-mx.firebaseapp.com",
+      projectId: "life-mx",
+      storageBucket: "life-mx.appspot.com",
+      messagingSenderId: "1094128453155",
+      appId: "1:1094128453155:web:504ba9088d963691b09396"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function registrarse() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          document.getElementById("mensaje").innerText = "¡Registro exitoso!";
+          return db.collection("usuarios").doc(userCredential.user.uid).set({
+            email: email,
+            puntos: 0
+          });
+        })
+        .then(() => {
+          window.location.href = "dashboard.html"; // Redirige después de registrar
+        })
+        .catch((error) => {
+          document.getElementById("mensaje").innerText = "Error: " + error.message;
+        });
+    }
+
+    function iniciarSesion() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          window.location.href = "dashboard.html"; // Redirige después de iniciar sesión
+        })
+        .catch((error) => {
+          document.getElementById("mensaje").innerText = "Error: " + error.message;
+        });
+    }
+  </script>
+</body>
+</html>
