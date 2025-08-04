@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Usuario - LIFE MX</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Panel de Usuario</h1>
+    <nav>
+      <a href="#intercambios">Subir objeto</a> |
+      <a href="#inbox">Inbox</a> |
+      <a href="#perfil">Mi perfil</a>
+    </nav>
+  </header>
+  <main>
+    <section id="intercambios">
+      <h2>Sube un objeto para intercambiar</h2>
+      <form>
+        <input type="text" placeholder="Nombre del objeto" required>
+        <textarea placeholder="Descripción"></textarea>
+        <input type="file" accept="image/*">
+        <button type="submit">Subir objeto</button>
+      </form>
+    </section>
+    <section id="inbox">
+      <h2>Inbox</h2>
+      <p>Aquí podrás enviar y recibir mensajes de otros usuarios (próximamente).</p>
+    </section>
+    <section id="perfil">
+      <h2>Mi perfil</h2>
+      <form>
+        <input type="text" placeholder="Nombre de usuario">
+        <input type="email" placeholder="Correo electrónico" disabled>
+        <button type="submit">Guardar cambios</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>LIFE MX &mdash; 2025</p>
+  </footer>
+</body>
+</html>
