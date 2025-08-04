@@ -1,4 +1,5 @@
-console.log("¡Bienvenido a LIFE MX");
+console.log("¡Bienvenido a LIFE MX!");
+
 const firebaseConfig = {
   apiKey: "AIzaSyDnq4w726_lTd9DLP7A6Wgw0yoJVkK__Pc",
   authDomain: "life-mx.firebaseapp.com",
@@ -8,7 +9,7 @@ const firebaseConfig = {
   appId: "1:1094128453155:web:504ba9088d963691b09396"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
@@ -23,6 +24,9 @@ function registrarse() {
         puntos: 0
       });
     })
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
     .catch((error) => {
       document.getElementById("mensaje").innerText = "Error: " + error.message;
     });
@@ -32,8 +36,8 @@ function iniciarSesion() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      document.getElementById("mensaje").innerText = "¡Bienvenido/a!";
+    .then(() => {
+      window.location.href = "dashboard.html";
     })
     .catch((error) => {
       document.getElementById("mensaje").innerText = "Error: " + error.message;
