@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Perfil | LIFE MX</title>
-<link rel="stylesheet" href="style.css">
-<script defer type="module" src="perfil.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil | LIFE MX</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer type="module" src="perfil.js"></script>
 </head>
-<body>
-  <div class="perfil">
-    <h1 id="nombreUsuario">Cargando...</h1>
-    <img id="fotoPerfil" src="https://via.placeholder.com/120" alt="">
-    <p id="emailUsuario"></p>
-    <input type="file" id="fotoInput">
-    <button onclick="subirFotoPerfil()">Subir foto</button>
-    <textarea id="opinionInput" placeholder="Deja una reseña"></textarea>
-    <button onclick="enviarResena()">Enviar reseña</button>
-    <div id="resenasContainer"></div>
-    <button onclick="cerrarSesion()">Cerrar sesión</button>
-  </div>
+<body class="perfil-body">
+  <header class="perfil-header">
+    <h1>Tu Perfil</h1>
+    <button class="logout-btn" onclick="cerrarSesion()">Cerrar sesión</button>
+  </header>
+
+  <main class="perfil-container">
+    <section class="perfil-card">
+      <img id="fotoPerfil" src="https://via.placeholder.com/120" alt="Foto de perfil" class="foto-perfil" />
+      <input type="file" id="fotoInput" />
+      <button onclick="subirFotoPerfil()">Subir foto</button>
+
+      <h2 id="nombreUsuario">Nombre Usuario</h2>
+      <p id="emailUsuario">Email Usuario</p>
+    </section>
+
+    <section class="resenas-section">
+      <h3>Deja una reseña:</h3>
+      <textarea id="opinionInput" placeholder="Escribe algo chido..." class="resena-input"></textarea>
+      <button onclick="enviarResena()">Enviar reseña</button>
+
+      <h3>Lo que dicen sobre ti:</h3>
+      <div id="resenasContainer" class="resenas-container"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; LIFE MX 2025</p>
+  </footer>
 </body>
 </html>
