@@ -1,72 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Usuario - LIFE MX</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | LIFE MX</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
   <header>
-    <h1>Panel de Usuario</h1>
-    <nav>
-      <a href="#intercambios">Subir objeto</a> |
-      <a href="#inbox">Inbox</a> |
-      <a href="#perfil">Mi perfil</a>
+    <div class="logo">LIFE MX</div>
+    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+    <nav class="menu" id="menu">
+      <a href="#perfil">Perfil</a>
+      <a href="#mensajes">Mensajes</a>
+      <a href="#crear">Crear intercambio</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
     </nav>
   </header>
 
   <main>
-    <section id="intercambios">
-      <h2>Sube un objeto para intercambiar</h2>
-      <form>
-        <input type="text" placeholder="Nombre del objeto" required>
-        <textarea placeholder="Descripción"></textarea>
-        <input type="file" accept="image/*">
-        <button type="submit">Subir objeto</button>
-      </form>
-    </section>
-
-    <section id="inbox">
-      <h2>Inbox</h2>
-      <p>Aquí podrás enviar y recibir mensajes de otros usuarios (próximamente).</p>
-    </section>
-
-    <section id="perfil">
-      <h2>Mi perfil</h2>
-      <form>
-        <input type="text" placeholder="Nombre de usuario">
-        <input type="email" placeholder="Correo electrónico" disabled>
-        <button type="submit">Guardar cambios</button>
-      </form>
+    <section id="feed" class="feed">
+      <h2>Intercambios recientes</h2>
+      <div class="posts" id="posts">
+        <!-- Aquí se cargarán los intercambios -->
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>LIFE MX &mdash; 2025</p>
+    <p>&copy; LIFE MX 2025</p>
   </footer>
-
-  <!-- Firebase y protección de sesión -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDnq4w726_lTd9DLP7A6Wgw0yoJVkK__Pc",
-      authDomain: "life-mx.firebaseapp.com",
-      projectId: "life-mx",
-      storageBucket: "life-mx.appspot.com",
-      messagingSenderId: "1094128453155",
-      appId: "1:1094128453155:web:504ba9088d963691b09396"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (!user) {
-        window.location.href = "index.html";
-      }
-    });
-  </script>
 </body>
 </html>
+
