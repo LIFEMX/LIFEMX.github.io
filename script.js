@@ -1,5 +1,4 @@
-console.log("¡Bienvenido a LIFE MX!");
-
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDnq4w726_lTd9DLP7A6Wgw0yoJVkK__Pc",
   authDomain: "life-mx.firebaseapp.com",
@@ -13,35 +12,55 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-function registrarse() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+// Protege el dashboard
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = "index.html"; // cambia si tu login tiene otro nombre
+  } else {
+    cargarPublicaciones();
+  }
+});
 
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      document.getElementById("mensaje").innerText = "¡Registro exitoso!";
-      return db.collection("usuarios").doc(userCredential.user.uid).set({
-        email: email,
-        puntos: 0
-      });
-    })
-    .then(() => {
-      window.location.href = "dashboard.html";
-    })
-    .catch((error) => {
-      document.getElementById("mensaje").innerText = "Error: " + error.message;
-    });
+// Menú hamburguesa
+document.getElementById("menu-toggle").addEventListener("click", () => {
+  document.getElementById("menu").classList.toggle("active");
+});
+
+// Cerrar sesión
+function cerrarSesion() {
+  auth.signOut().then(() => {
+    window.location.href = "index.html";
+  });
 }
 
-function iniciarSesion() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+// Cargar publicaciones falsas por ahora (puedes luego conectarlo a Firestore)
+function cargarPublicaciones() {
+  const posts = [
+    {
+      titulo: "Playera vintage",
+      descripcion: "Talla M, estilo noventero, 100% algodón.",
+      imagen: "https://source.unsplash.com/random/300x200?shirt"
+    },
+    {
+      titulo: "Libro de filosofía",
+      descripcion: "Usado pero en buen estado.",
+      imagen: "https://source.unsplash.com/random/300x200?book"
+    },
+    {
+      titulo: "Patineta clásica",
+      descripcion: "Ideal para coleccionistas.",
+      imagen: "https://source.unsplash.com/random/300x200?skateboard"
+    }
+  ];
 
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      window.location.href = "dashboard.html";
-    })
-    .catch((error) => {
-      document.getElementById("mensaje").innerText = "Error: " + error.message;
-    });
+  const contenedor = document.getElementById("posts");
+  posts.forEach(post => {
+    contenedor.innerHTML += `
+      <div class="post">
+        <img src="${post.imagen}" alt="${post.titulo}">
+        <h3>${post.titulo}</h3>
+        <p>${post.descripcion}</p>
+      </div>
+    `;
+  });
 }
