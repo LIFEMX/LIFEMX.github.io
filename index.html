@@ -11,26 +11,23 @@
 
   <div>
     <h2>Registro</h2>
-    <input type="email" id="email" placeholder="Correo electrónico">
-    <input type="password" id="password" placeholder="Contraseña">
+    <input type="email" id="emailRegister" placeholder="Correo electrónico">
+    <input type="password" id="passwordRegister" placeholder="Contraseña">
     <button onclick="registrarse()">Registrarse</button>
   </div>
 
   <div>
     <h2>Iniciar Sesión</h2>
-    <input type="email" id="email" placeholder="Correo electrónico">
-    <input type="password" id="password" placeholder="Contraseña">
+    <input type="email" id="emailLogin" placeholder="Correo electrónico">
+    <input type="password" id="passwordLogin" placeholder="Contraseña">
     <button onclick="iniciarSesion()">Iniciar Sesión</button>
   </div>
 
   <p id="mensaje"></p>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
-  <!-- Tu script -->
-  <script src="script.js"></script>
+  <!-- Firebase versión 9 modular -->
+  <script type="module" src="firebaseConfig.js"></script>
+  <script type="module" src="auth.js"></script>
 </body>
 </html>
+
