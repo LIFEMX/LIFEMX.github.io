@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard | LIFE MX</title>
   <link rel="stylesheet" href="style.css"/>
-  <script defer src="script.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script defer type="module" src="dashboard.js"></script>
 </head>
 <body>
   <header>
     <div class="logo">LIFE MX</div>
     <div class="menu-toggle" id="menu-toggle">&#9776;</div>
     <nav class="menu" id="menu">
-      <a href="#perfil">Perfil</a>
-      <a href="#mensajes">Mensajes</a>
-      <a href="#crear">Crear intercambio</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="#">Mensajes</a>
+      <a href="crear.html">Crear intercambio</a>
       <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
     </nav>
   </header>
 
   <main>
-    <section id="feed" class="feed">
+    <section class="feed">
       <h2>Intercambios recientes</h2>
-      <div class="posts" id="posts">
-        <!-- Aquí se cargarán los intercambios -->
-      </div>
+      <div id="posts"></div>
     </section>
   </main>
 
@@ -36,4 +31,3 @@
   </footer>
 </body>
 </html>
-
