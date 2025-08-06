@@ -1,66 +1,44 @@
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyDnq4w726_lTd9DLP7A6Wgw0yoJVkK__Pc",
-  authDomain: "life-mx.firebaseapp.com",
-  projectId: "life-mx",
-  storageBucket: "life-mx.appspot.com",
-  messagingSenderId: "1094128453155",
-  appId: "1:1094128453155:web:504ba9088d963691b09396"
-};
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+  const firebaseConfig = {
+    apiKey: "AIzaSyBd_AOHNKC4hCN8mZMySklgty2qIVhoRNo",
+    authDomain: "ilcorvoreal.firebaseapp.com",
+    projectId: "ilcorvoreal",
+    storageBucket: "ilcorvoreal.appspot.com",
+    messagingSenderId: "199930908947",
+    appId: "1:199930908947:web:ff3e9b2c688abb9cd03da1",
+    measurementId: "G-43Q7DRYD9F"
+  };
 
-// Protege el dashboard
-auth.onAuthStateChanged(user => {
-  if (!user) {
-    window.location.href = "index.html"; // cambia si tu login tiene otro nombre
-  } else {
-    cargarPublicaciones();
-  }
-});
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-// Menú hamburguesa
-document.getElementById("menu-toggle").addEventListener("click", () => {
-  document.getElementById("menu").classList.toggle("active");
-});
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      console.log("Usuario logueado:", user.uid);
 
-// Cerrar sesión
-function cerrarSesion() {
-  auth.signOut().then(() => {
-    window.location.href = "index.html";
-  });
-}
+      const userRef = doc(db, "usuarios", user.uid);
+      const userSnap = await getDoc(userRef);
 
-// Cargar publicaciones falsas por ahora (puedes luego conectarlo a Firestore)
-function cargarPublicaciones() {
-  const posts = [
-    {
-      titulo: "Playera vintage",
-      descripcion: "Talla M, estilo noventero, 100% algodón.",
-      imagen: "https://source.unsplash.com/random/300x200?shirt"
-    },
-    {
-      titulo: "Libro de filosofía",
-      descripcion: "Usado pero en buen estado.",
-      imagen: "https://source.unsplash.com/random/300x200?book"
-    },
-    {
-      titulo: "Patineta clásica",
-      descripcion: "Ideal para coleccionistas.",
-      imagen: "https://source.unsplash.com/random/300x200?skateboard"
+      if (userSnap.exists()) {
+        const datos = userSnap.data();
+        console.log("Datos del usuario:", datos);
+
+        document.getElementById("nombre").textContent = datos.nombre || "Sin nombre";
+        document.getElementById("correo").textContent = datos.correo || user.email || "Sin correo";
+        document.getElementById("telefono").textContent = datos.telefono || "Sin teléfono";
+        document.getElementById("carrera").textContent = datos.carrera || "Sin carrera";
+        document.getElementById("universidad").textContent = datos.universidad || "Sin universidad";
+      } else {
+        console.error("No se encontró el documento del usuario en Firestore");
+      }
+    } else {
+      console.warn("No hay usuario logueado");
+      window.location.href = "login.html"; // Redirige si no hay usuario logueado
     }
-  ];
-
-  const contenedor = document.getElementById("posts");
-  posts.forEach(post => {
-    contenedor.innerHTML += `
-      <div class="post">
-        <img src="${post.imagen}" alt="${post.titulo}">
-        <h3>${post.titulo}</h3>
-        <p>${post.descripcion}</p>
-      </div>
-    `;
   });
-}
+</script>
