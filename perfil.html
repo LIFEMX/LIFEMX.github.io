@@ -1,40 +1,69 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil | LIFE MX</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer type="module" src="perfil.js"></script>
-</head>
-<body class="perfil-body">
-  <header class="perfil-header">
-    <h1>Tu Perfil</h1>
-    <button class="logout-btn" onclick="cerrarSesion()">Cerrar sesión</button>
-  </header>
+import React, { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
-  <main class="perfil-container">
-    <section class="perfil-card">
-      <img id="fotoPerfil" src="https://via.placeholder.com/120" alt="Foto de perfil" class="foto-perfil" />
-      <input type="file" id="fotoInput" />
-      <button onclick="subirFotoPerfil()">Subir foto</button>
+export default function AuthPage() {
+  const [isLogin, setIsLogin] = useState(true);
 
-      <h2 id="nombreUsuario">Nombre Usuario</h2>
-      <p id="emailUsuario">Email Usuario</p>
-    </section>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-200 via-green-400 to-green-600 p-4">
+      <div className="w-full max-w-md">
+        <Tabs defaultValue="login" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="login" onClick={() => setIsLogin(true)}>Iniciar Sesión</TabsTrigger>
+            <TabsTrigger value="register" onClick={() => setIsLogin(false)}>Registrarse</TabsTrigger>
+          </TabsList>
 
-    <section class="resenas-section">
-      <h3>Deja una reseña:</h3>
-      <textarea id="opinionInput" placeholder="Escribe algo chido..." class="resena-input"></textarea>
-      <button onclick="enviarResena()">Enviar reseña</button>
+          <TabsContent value="login">
+            <Card className="rounded-2xl shadow-xl">
+              <CardContent className="grid gap-4 p-6">
+                <div className="flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-full bg-green-300 mb-4"></div>
+                  <h2 className="text-lg font-semibold">Bienvenido de nuevo</h2>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Correo electrónico</Label>
+                  <Input id="email" type="email" placeholder="correo@ejemplo.com" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <Input id="password" type="password" placeholder="••••••••" />
+                </div>
+                <Button className="mt-4 bg-green-700 hover:bg-green-800 text-white">Iniciar Sesión</Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-      <h3>Lo que dicen sobre ti:</h3>
-      <div id="resenasContainer" class="resenas-container"></div>
-    </section>
-  </main>
+          <TabsContent value="register">
+            <Card className="rounded-2xl shadow-xl">
+              <CardContent className="grid gap-4 p-6">
+                <div className="flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-full bg-green-300 mb-4"></div>
+                  <h2 className="text-lg font-semibold">Crea tu cuenta</h2>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="username">Nombre de usuario</Label>
+                  <Input id="username" type="text" placeholder="Tu nombre" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Correo electrónico</Label>
+                  <Input id="email" type="email" placeholder="correo@ejemplo.com" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <Input id="password" type="password" placeholder="Crea una contraseña" />
+                </div>
+                <Button className="mt-4 bg-green-700 hover:bg-green-800 text-white">Registrarse</Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
 
-  <footer>
-    <p>&copy; LIFE MX 2025</p>
-  </footer>
-</body>
-</html>
