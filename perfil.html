@@ -1,171 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Perfil de Usuario - LIFE MX</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      background-color: #0b3d2e;
-      color: white;
-      padding: 2rem;
-    }
-
-    .perfil-container {
-      background: #1a1a1a;
-      border-radius: 1rem;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    img {
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-    }
-
-    button {
-      margin: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: #2e8b57;
-      border: none;
-      border-radius: 0.5rem;
-      color: white;
-      cursor: pointer;
-    }
-
-    .reseña {
-      margin-top: 1rem;
-      background: #333;
-      padding: 1rem;
-      border-radius: 0.5rem;
-    }
-  </style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Perfil | LIFE MX</title>
+<link rel="stylesheet" href="style.css">
+<script defer type="module" src="perfil.js"></script>
 </head>
 <body>
-
-  <div class="perfil-container">
+  <div class="perfil">
     <h1 id="nombreUsuario">Cargando...</h1>
-    <img id="fotoPerfil" src="" alt="Foto de perfil">
+    <img id="fotoPerfil" src="https://via.placeholder.com/120" alt="">
     <p id="emailUsuario"></p>
-
     <input type="file" id="fotoInput">
     <button onclick="subirFotoPerfil()">Subir foto</button>
-
-    <br>
-    <button onclick="seguirUsuario()">Seguir</button>
-    <button onclick="enviarMensaje()">Mensaje</button>
-
-    <h2>Reseñas</h2>
+    <textarea id="opinionInput" placeholder="Deja una reseña"></textarea>
+    <button onclick="enviarResena()">Enviar reseña</button>
     <div id="resenasContainer"></div>
-
-    <textarea id="opinionInput" placeholder="Escribe tu opinión..."></textarea>
-    <button onclick="enviarResena()">Enviar opinión</button>
+    <button onclick="cerrarSesion()">Cerrar sesión</button>
   </div>
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDnq4w726_lTd9DLP7A6Wgw0yoJVkK__Pc",
-      authDomain: "life-mx.firebaseapp.com",
-      projectId: "life-mx",
-      storageBucket: "life-mx.appspot.com",
-      messagingSenderId: "1094128453155",
-      appId: "1:1094128453155:web:504ba9088d963691b09396"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
-    const storage = firebase.storage();
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const perfilUid = urlParams.get('uid');
-
-    let usuarioActual = null;
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        usuarioActual = user.uid;
-        cargarPerfil(perfilUid);
-      } else {
-        window.location.href = "index.html";
-      }
-    });
-
-    function cargarPerfil(uid) {
-      db.collection("usuarios").doc(uid).get().then(doc => {
-        if (doc.exists) {
-          const data = doc.data();
-          document.getElementById("nombreUsuario").innerText = data.nombre || "Sin nombre";
-          document.getElementById("emailUsuario").innerText = data.email;
-          document.getElementById("fotoPerfil").src = data.fotoPerfil || "https://via.placeholder.com/120";
-          cargarResenas(uid);
-        }
-      });
-    }
-
-    function subirFotoPerfil() {
-      const archivo = document.getElementById("fotoInput").files[0];
-      const ref = storage.ref("fotosPerfil/" + perfilUid);
-      ref.put(archivo).then(() => {
-        return ref.getDownloadURL();
-      }).then(url => {
-        return db.collection("usuarios").doc(perfilUid).update({
-          fotoPerfil: url
-        });
-      }).then(() => {
-        alert("Foto actualizada");
-        location.reload();
-      });
-    }
-
-    function seguirUsuario() {
-      alert("Función de seguir aún en desarrollo 👀");
-    }
-
-    function enviarMensaje() {
-      alert("Aquí iría el sistema de mensajes (próximamente)");
-    }
-
-    function enviarResena() {
-      const texto = document.getElementById("opinionInput").value;
-      const reseña = {
-        autor: usuarioActual,
-        mensaje: texto,
-        fecha: new Date().toISOString()
-      };
-      db.collection("usuarios").doc(perfilUid).update({
-        reseñas: firebase.firestore.FieldValue.arrayUnion(reseña)
-      }).then(() => {
-        document.getElementById("opinionInput").value = "";
-        cargarResenas(perfilUid);
-      });
-    }
-
-    function cargarResenas(uid) {
-      db.collection("usuarios").doc(uid).get().then(doc => {
-        const data = doc.data();
-        const container = document.getElementById("resenasContainer");
-        container.innerHTML = "";
-        if (data.reseñas) {
-          data.reseñas.forEach(r => {
-            const div = document.createElement("div");
-            div.className = "reseña";
-            div.innerHTML = `<p>${r.mensaje}</p><small>${r.fecha}</small>`;
-            container.appendChild(div);
-          });
-        }
-      });
-    }
-  </script>
 </body>
 </html>
